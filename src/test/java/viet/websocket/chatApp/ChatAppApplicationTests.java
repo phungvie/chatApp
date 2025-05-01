@@ -1,4 +1,4 @@
-package viet.wss.chatApp;
+package viet.websocket.chatApp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,0 +1,23 @@
+services:  # Định nghĩa các dịch vụ (containers) sẽ chạy
+  mongodb:  # Tên dịch vụ MongoDB
+    image: mongo  # Dùng image "mongo" từ Docker Hub
+    container_name: mongo_db  # Đặt tên container là "mongo_db"
+    ports:
+      - 27018:27017  # Mở cổng host 27018 map tới cổng container 27017 (cổng mặc định MongoDB)
+    volumes:
+      - mongo:/data  # Gắn volume "mongo" vào thư mục /data trong container
+    environment:  # Biến môi trường cho container MongoDB
+      - MONGO_INITDB_ROOT_USERNAME=root  # Tên người dùng admin mặc định
+      - MONGO_INITDB_ROOT_PASSWORD=root  # Mật khẩu admin mặc định
+  mongo-express:  # Tên dịch vụ Mongo Express (web GUI cho MongoDB)
+    image: mongo-express  # Dùng image "mongo-express" từ Docker Hub
+    container_name: mongo_express  # Đặt tên container là "mongo_express"
+    restart: always  # Luôn tự động restart nếu container bị crash
+    ports:
+      - 9099:8081  # Mở cổng host 8081 map tới cổng 8081 của container
+    environment:  # Biến môi trường cho mongo-express
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root  # Username admin để đăng nhập vào MongoDB
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=root  # Password admin để đăng nhập
+      - ME_CONFIG_MONGODB_SERVER=mongodb  # Chỉ định tên dịch vụ MongoDB (kết nối qua internal network của Docker)
+volumes:  # Khai báo volumes dùng để lưu dữ liệu ra bên ngoài container
+  mongo: {}  # Volume tên là "mongo", để lưu data của MongoDB
